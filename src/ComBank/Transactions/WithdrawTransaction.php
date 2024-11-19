@@ -10,6 +10,7 @@
 use ComBank\Bank\Contracts\BackAccountInterface;
 use ComBank\Exceptions\FailedTransactionException;
 use ComBank\Exceptions\InvalidOverdraftFundsException;
+use ComBank\Exceptions\InvalidArgsException;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 
 class WithdrawTransaction  extends BaseTransaction implements BankTransactionInterface 
@@ -33,7 +34,9 @@ class WithdrawTransaction  extends BaseTransaction implements BankTransactionInt
             }
         }
         $account->setBalance($newBalance);
-        return $account->getBalance();
+        return $this->detectFraud($this)
+            ? $account->getBalance()
+            : throw new InvalidArgsException("ERROR: possible fraud was detected");
     }
     public function getTransactionInfo() : string{
         return "WITHDRAW_TRANSACTION";

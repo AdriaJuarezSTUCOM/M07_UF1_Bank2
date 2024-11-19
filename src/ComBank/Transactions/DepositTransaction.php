@@ -9,6 +9,7 @@
 
 use ComBank\Bank\Contracts\BackAccountInterface;
 use ComBank\Exceptions\ZeroAmountException;
+use ComBank\Exceptions\InvalidArgsException;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 
 class DepositTransaction extends BaseTransaction implements BankTransactionInterface 
@@ -22,7 +23,9 @@ class DepositTransaction extends BaseTransaction implements BankTransactionInter
     public function applyTransaction(BackAccountInterface $account) : float{
             $newBalance = $account->getBalance() + $this->amountDeposit;
             $account->setBalance($newBalance);
-            return $newBalance;
+            return $this->detectFraud($this)
+            ? $newBalance
+            : throw new InvalidArgsException("ERROR: possible fraud was detected");
     }
     public function getTransactionInfo() : string{
         return "DEPOSIT_TRANSACTION";
