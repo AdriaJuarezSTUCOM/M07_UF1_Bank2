@@ -13,6 +13,7 @@ use ComBank\Bank\InternationalBankAccount;
 use ComBank\Bank\Person;
 use ComBank\OverdraftStrategy\SilverOverdraft;
 use ComBank\Exceptions\InvalidOverdraftFundsException;
+use ComBank\Exceptions\InvalidArgsException;
 use ComBank\Transactions\DepositTransaction;
 use ComBank\Transactions\WithdrawTransaction;
 use ComBank\Exceptions\BankAccountException;
@@ -140,5 +141,32 @@ pl('--------- [Start testing bad mail] --------');
 $personaCorreoMalo = new Person("dihfkdsnfdsfn.es");
 pl("Validating email: ". $personaCorreoMalo->getEmail());
 }catch(InvalidArgumentException $e){
+    pl($e->getMessage());
+}
+
+//---------------[Start testing not fraud]---------------------/
+pl('--------- [Start testing not fraud] --------');
+try{
+pl('Doing transaction deposit (+3000)');
+$cuentaNoFraudulenta = new BankAccount(500);
+$cuentaNoFraudulenta->transaction(new DepositTransaction(3000));
+pl('Transaction successful');
+
+//---------------[Start testing fraud]---------------------/
+pl('--------- [Start testing fraud] --------');
+pl('Doing transaction deposit (+59000)');
+$cuentaFraudulenta = new BankAccount(500);
+$cuentaFraudulenta->transaction(new DepositTransaction(59000));
+}catch(InvalidArgsException $e){
+    pl($e->getMessage());
+}
+
+//---------------[Start testing ubication]------------/
+try{
+pl('--------- [Start testing ubication] --------');
+$cuentaBarcelona = new BankAccount(500);
+pl('Opening account');
+$cuentaBarcelona->openAccount("192.168.16.4");//HAY QUE AÑADIR UNA IP AQUI PARA PODER HACER EL TEST, EN LOCALHOST DARA ERROR
+}catch(InvalidArgsException $e){
     pl($e->getMessage());
 }
