@@ -8,6 +8,7 @@
  */
 
 use ComBank\Exceptions\BankAccountException;
+use ComBank\Exceptions\InvalidArgsException;
 use ComBank\OverdraftStrategy\NoOverdraft;
 use ComBank\Bank\Contracts\BackAccountInterface;
 use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
@@ -26,7 +27,9 @@ class BankAccount implements BackAccountInterface
     protected $status;
     protected $overdraft;
     protected $currency;
-    
+
+    use APITrait;
+
     public function __construct($balance = 100, Person $personHolder = null) {
 
         
@@ -43,8 +46,10 @@ class BankAccount implements BackAccountInterface
             : $transaction->applyTransaction($this);
     }
 
-    public function openAccount() : bool{
-        return $this->status == BackAccountInterface::STATUS_OPEN;
+    public function openAccount($ip = null) : bool{
+        return $this->validateLocation($ip)
+        ? $this->status == BackAccountInterface::STATUS_OPEN
+        : throw new InvalidArgsException("ERROR: you have to be in Barcelona to open an account");
     }
     public function reopenAccount() : void{
         if($this->status == BackAccountInterface::STATUS_OPEN){
