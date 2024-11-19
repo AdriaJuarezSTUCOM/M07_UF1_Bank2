@@ -170,5 +170,3 @@ $cuentaBarcelona->openAccount("192.168.16.4");//HAY QUE AÑADIR UNA IP AQUI PARA
 }catch(InvalidArgsException $e){
     pl($e->getMessage());
 }
-
-//test
