@@ -1,6 +1,6 @@
 <?php namespace ComBank\Support\Traits;
 
-require 'c:\xampp\htdocs\M07-BackEnd\M07_UF1_Bank\vendor\autoload.php';
+require 'c:\xampp\htdocs\M07-BackEnd\M07_UF1_Bank2\vendor\autoload.php';
 
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 use GuzzleHttp\Client;
