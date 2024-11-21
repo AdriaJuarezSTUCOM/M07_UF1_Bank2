@@ -15,7 +15,6 @@ trait APITrait {
 
         $client = new Client();
 
-        // Define array of request body.
         $request_body = array(
             "amount" => $balance,
             "from" => $originalCurrency,
@@ -46,7 +45,6 @@ trait APITrait {
 
         $client = new Client();
 
-        // Define array of request body.
         $request_body = array(
             "email" => $email
         );
@@ -106,7 +104,6 @@ trait APITrait {
 
         $client = new Client();
 
-        // Define array of request body.
         $request_body = array(
             "ip" => $ip
         );

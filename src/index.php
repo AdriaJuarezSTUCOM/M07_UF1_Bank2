@@ -161,12 +161,18 @@ $cuentaFraudulenta->transaction(new DepositTransaction(59000));
     pl($e->getMessage());
 }
 
-//---------------[Start testing ubication]------------/
+//---------------[Start testing ubication in Barcelona]------------/
 try{
-pl('--------- [Start testing ubication] --------');
+pl('--------- [Start testing ubication in Barcelona] --------');
+$cuentaFueraBarcelona = new BankAccount(500);
+pl('Opening account with ip: 84.88.0.19 (in Barcelona)');
+$cuentaFueraBarcelona->openAccount("84.88.0.19");//HAY QUE AÑADIR UNA IP AQUI PARA PODER HACER EL TEST, EN LOCALHOST DARA ERROR
+
+//---------------[Start testing ubication out of Barcelona]------------/
+pl('--------- [Start testing ubication out of Barcelona] --------');
 $cuentaBarcelona = new BankAccount(500);
-pl('Opening account');
-$cuentaBarcelona->openAccount("192.168.16.4");//HAY QUE AÑADIR UNA IP AQUI PARA PODER HACER EL TEST, EN LOCALHOST DARA ERROR
+pl('Opening account with ip: 103.109.244.212 (not in Barcelona)');
+$cuentaBarcelona->openAccount("103.109.244.212");//HAY QUE AÑADIR UNA IP AQUI PARA PODER HACER EL TEST, EN LOCALHOST DARA ERROR
 }catch(InvalidArgsException $e){
     pl($e->getMessage());
 }
